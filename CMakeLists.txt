@@ -14,25 +14,25 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 
 # update output directories, see http://stackoverflow.com/questions/7229571/cmake-visual-studio-debug-folder
-# First for the generic no-config case (e.g. with mingw)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${PROJECT_BIN_DIR})
-# Second, for multi-config builds (e.g. msvc)
 foreach(OUTPUTCONFIG ${CMAKE_CONFIGURATION_TYPES})
   string(TOUPPER ${OUTPUTCONFIG} OUTPUTCONFIG)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${OUTPUTCONFIG} ${CMAKE_BINARY_DIR}/${PROJECT_BIN_DIR})
 endforeach(OUTPUTCONFIG CMAKE_CONFIGURATION_TYPES)
 
-find_package(Qt5 COMPONENTS Core Qml Quick REQUIRED)
+find_package(Qt5 COMPONENTS Core Qml Quick QuickControls2 REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
 add_executable(${PROJECT_NAME}
-    src/main.cpp)
+    src/main.cpp
+    resources.qrc)
 
 target_link_libraries(${PROJECT_NAME}
     Qt5::Core
     Qt5::Qml
-    Qt5::Quick)
+    Qt5::Quick
+    Qt5::QuickControls2)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "d")
