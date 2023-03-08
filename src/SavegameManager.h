@@ -1,8 +1,6 @@
 #pragma once
 
-#include <QString>
-
-#include <vector>
+#include <QStringList>
 
 class SavegameManager
 {
@@ -12,10 +10,18 @@ public:
 
   bool initialize();
 
-  std::vector<QString> getSteamUserIds() const;
+  QStringList getSteamUserIds() const;
+
+  void setCurrentUserId(const QString& userId);
+  QString getCurrentUserId() const;
 
 private:
+  static QString loadUserIdFromFile();
+  static void saveUserIdToFile(const QString& userId);
+
   QString m_steamUserPath;
-  std::vector<QString> m_userIds;
+  QString m_currentUserId;
+
+  QStringList m_userIds;
 
 };

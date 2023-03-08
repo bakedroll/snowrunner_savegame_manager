@@ -2,8 +2,10 @@
 
 #include <QSettings>
 #include <QDir>
+#include <QTextStream>
 
 static const QString s_snowrunnerId = "1465360";
+static const QString s_userIdFilename = "./steamUserID.txt";
 
 SavegameManager::SavegameManager() = default;
 SavegameManager::~SavegameManager() = default;
@@ -32,7 +34,7 @@ bool SavegameManager::initialize()
     QDir userDir(userDataDir.filePath(id.fileName()));
     if (userDir.exists(s_snowrunnerId))
     {
-      m_userIds.emplace_back(id.fileName());
+      m_userIds.push_back(id.fileName());
     }
   }
 
@@ -41,11 +43,65 @@ bool SavegameManager::initialize()
     return false;
   }
 
+  if (m_userIds.size() == 1)
+  {
+    m_currentUserId = m_userIds.at(0);
+  }
+  else
+  {
+    const auto userId = loadUserIdFromFile();
+    if (!userId.isEmpty())
+    {
+      for (const auto& id : m_userIds)
+      {
+        if (id == userId)
+        {
+          m_currentUserId = userId;
+          break;
+        }
+      }
+    }
+  }
+
   m_steamUserPath = userDataPath;
   return true;
 }
 
-std::vector<QString> SavegameManager::getSteamUserIds() const
+QStringList SavegameManager::getSteamUserIds() const
 {
   return m_userIds;
+}
+
+void SavegameManager::setCurrentUserId(const QString& userId)
+{
+  m_currentUserId = userId;
+  saveUserIdToFile(userId);
+}
+
+QString SavegameManager::getCurrentUserId() const
+{
+  return m_currentUserId;
+}
+
+QString SavegameManager::loadUserIdFromFile()
+{
+  QFile file(s_userIdFilename);
+  if (!file.open(QIODevice::ReadOnly))
+  {
+    return "";
+  }
+
+  return file.readLine();
+}
+
+void SavegameManager::saveUserIdToFile(const QString& userId)
+{
+  QFile file(s_userIdFilename);
+  if (!file.open(QIODevice::WriteOnly))
+  {
+    return;
+  }
+
+  QTextStream stream(&file);
+  stream << userId;
 }
