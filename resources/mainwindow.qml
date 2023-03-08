@@ -2,30 +2,51 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.15
+import QtQuick.Dialogs 1.1
 
 Window {
     width: 640
     height: 480
     minimumWidth: 300
     minimumHeight: 300
-    visible: true
+    visible: !context.errorNoSavegamePath
     title: "Snowrunner Savegame Manager"
+
+    MessageDialog {
+        title: "Error"
+        text: "Could not find the savegame filepath."
+        icon: StandardIcon.Critical
+        visible: context.errorNoSavegamePath
+
+        onAccepted: Qt.quit()
+
+        Component.onCompleted: {
+            x = Screen.width / 2 - width / 2
+            y = Screen.height / 2 - height / 2
+        }
+    }
 
     ColumnLayout {
         spacing: 5
         anchors.margins: 5
         anchors.fill: parent
 
-        ListView {
+        ScrollView {
             Layout.fillHeight: true
             Layout.fillWidth: true
+            ScrollBar.vertical.policy: ScrollBar.AsNeeded
+            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
-            clip: true
-            model: ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6"]
-            delegate: Text {
-                text: modelData
-                font.pixelSize: 24
-                padding: 16
+            ListView {
+                width: parent.width
+
+                clip: true
+                model: context.snapshotItems
+                delegate: Text {
+                    text: modelData.test()
+                    font.pixelSize: 24
+                    padding: 16
+                }
             }
         }
 
@@ -37,7 +58,7 @@ Window {
             spacing: 5
 
             Button {
-                text: "Save snapshot"
+                text: "Create snapshot"
                 Layout.fillHeight: true
                 Layout.fillWidth: true
             }

@@ -27,6 +27,12 @@ set(CMAKE_AUTORCC ON)
 
 add_executable(${PROJECT_NAME}
     src/main.cpp
+    src/MainwindowContext.cpp
+    src/MainwindowContext.h
+    src/SavegameManager.cpp
+    src/SavegameManager.h
+    src/SnapshotItem.cpp
+    src/SnapshotItem.h
     resources.qrc)
 
 target_link_libraries(${PROJECT_NAME}

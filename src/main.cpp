@@ -1,6 +1,9 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
+#include <QQmlContext>
+
+#include "MainwindowContext.h"
 
 int main(int argc, char** argv)
 {
@@ -9,13 +12,11 @@ int main(int argc, char** argv)
 
   QQuickStyle::setStyle("Fusion");
 
-  QQmlApplicationEngine engine;
-  engine.load(QUrl(QStringLiteral("qrc:/resources/mainwindow.qml")));
+  MainwindowContext context;
 
-  if (engine.rootObjects().isEmpty())
-  {
-    return -1;
-  }
+  QQmlApplicationEngine engine;
+  engine.rootContext()->setContextProperty("context", &context);
+  engine.load(QUrl(QStringLiteral("qrc:/resources/mainwindow.qml")));
 
   return app.exec();
 }
