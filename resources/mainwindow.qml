@@ -110,21 +110,28 @@ Window {
             }
         }
 
-        ScrollView {
+        Rectangle {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            ScrollBar.vertical.policy: ScrollBar.AsNeeded
-            ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+            border.color: "darkgrey"
+            border.width: 1
 
-            ListView {
-                width: parent.width
+            ScrollView {
+                anchors.fill: parent
+                anchors.margins: 5
+                ScrollBar.vertical.policy: ScrollBar.AsNeeded
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
-                clip: true
-                model: context.snapshotItems
-                delegate: Text {
-                    text: modelData.test()
-                    font.pixelSize: 24
-                    padding: 16
+                ListView {
+                    width: parent.width
+
+                    clip: true
+                    model: context.snapshotItems
+                    delegate: Text {
+                        text: modelData.test()
+                        font.pixelSize: 24
+                        padding: 16
+                    }
                 }
             }
         }

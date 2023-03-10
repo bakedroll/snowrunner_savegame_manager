@@ -15,17 +15,7 @@ MainwindowContext::MainwindowContext() :
     setIsUserIdWindowVisible(true);
   }
 
-  m_snapshotItems.emplace_back(std::make_shared<SnapshotItem>());
-  m_snapshotItems.emplace_back(std::make_shared<SnapshotItem>());
-  m_snapshotItems.emplace_back(std::make_shared<SnapshotItem>());
-  m_snapshotItems.emplace_back(std::make_shared<SnapshotItem>());
-  m_snapshotItems.emplace_back(std::make_shared<SnapshotItem>());
-  m_snapshotItems.emplace_back(std::make_shared<SnapshotItem>());
-  m_snapshotItems.emplace_back(std::make_shared<SnapshotItem>());
-  m_snapshotItems.emplace_back(std::make_shared<SnapshotItem>());
-  m_snapshotItems.emplace_back(std::make_shared<SnapshotItem>());
-  m_snapshotItems.emplace_back(std::make_shared<SnapshotItem>());
-  m_snapshotItems.emplace_back(std::make_shared<SnapshotItem>());
+  // m_snapshotItems.emplace_back(std::make_shared<SnapshotItem>());
 }
 
 void MainwindowContext::setCurrentSteamUserId(const QString& userId)
